@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Najsport – Registrácia zákazníka</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;500&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#111;font-family:'Barlow',sans-serif;min-height:100vh;padding-bottom:3rem}
+  .header{background:#e85d04;padding:1.5rem 1.25rem;position:relative;overflow:hidden}
+  .header-bg{position:absolute;top:0;right:-10px;font-family:'Barlow Condensed',sans-serif;font-size:80px;font-weight:900;color:rgba(255,255,255,0.07);pointer-events:none;letter-spacing:-2px}
+  .logo{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:34px;color:#fff;letter-spacing:1px;position:relative}
+  .sub{font-size:11px;color:rgba(255,255,255,0.8);letter-spacing:2.5px;text-transform:uppercase;margin-top:3px;position:relative}
+  .body{max-width:480px;margin:0 auto;padding:1.5rem 1.25rem}
+  .section-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:3px;color:#e85d04;text-transform:uppercase;margin:1.5rem 0 1rem;border-bottom:1px solid #222;padding-bottom:6px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+  .row.full{grid-template-columns:1fr}
+  .field{display:flex;flex-direction:column;gap:5px}
+  label{font-size:10px;letter-spacing:2px;color:#777;text-transform:uppercase;font-weight:500}
+  label span{color:#e85d04}
+  input{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:4px;padding:11px 13px;color:#fff;font-family:'Barlow',sans-serif;font-size:14px;outline:none;width:100%;transition:border-color 0.2s}
+  input:focus{border-color:#e85d04}
+  input::placeholder{color:#3a3a3a}
+  .consent{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:4px;padding:14px;display:flex;gap:12px;cursor:pointer;margin:0.5rem 0 1.25rem;user-select:none}
+  .chk{width:18px;height:18px;border:2px solid #3a3a3a;border-radius:3px;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-size:12px;font-weight:700;color:#fff}
+  .chk.on{background:#e85d04;border-color:#e85d04}
+  .consent-text{font-size:12px;color:#888;line-height:1.65}
+  .consent-text strong{color:#bbb}
+  .btn{width:100%;background:#e85d04;border:none;padding:15px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;letter-spacing:2px;text-transform:uppercase;color:#fff;border-radius:4px;cursor:pointer;transition:background 0.2s;margin-top:0.25rem}
+  .btn:hover{background:#ff6b1a}
+  .btn:disabled{background:#252525;color:#444;cursor:not-allowed}
+  .msg{margin-top:1rem;padding:12px 16px;border-radius:4px;font-size:13px;font-weight:600;display:none;text-align:center;line-height:1.5}
+  .msg.ok{background:#0d2b0d;color:#6fcf6f;border:1px solid #1e4d1e;display:block}
+  .msg.err{background:#2b0d0d;color:#cf6f6f;border:1px solid #4d1e1e;display:block}
+  .required-note{font-size:11px;color:#555;margin-top:1.5rem;text-align:center}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-bg">NAJSPORT</div>
+  <div class="logo">NAJSPORT</div>
+  <div class="sub">Registrácia zákazníka</div>
+</div>
+<div class="body">
+  <div class="section-title">Osobné údaje</div>
+  <div class="row">
+    <div class="field">
+      <label>Meno<span> *</span></label>
+      <input type="text" id="meno" placeholder="Ján" maxlength="50" autocomplete="given-name">
+    </div>
+    <div class="field">
+      <label>Priezvisko<span> *</span></label>
+      <input type="text" id="priezvisko" placeholder="Novák" maxlength="50" autocomplete="family-name">
+    </div>
+  </div>
+  <div class="row full">
+    <div class="field">
+      <label>Telefónne číslo<span> *</span></label>
+      <input type="tel" id="telefon" placeholder="+421 900 000 000" maxlength="20" autocomplete="tel">
+    </div>
+  </div>
+  <div class="row full">
+    <div class="field">
+      <label>E-mail<span> *</span></label>
+      <input type="email" id="email" placeholder="jan.novak@email.sk" maxlength="100" autocomplete="email">
+    </div>
+  </div>
+  <div class="row full">
+    <div class="field">
+      <label>Mesto</label>
+      <input type="text" id="mesto" placeholder="Bratislava" maxlength="50" autocomplete="address-level2">
+    </div>
+  </div>
+
+  <div class="section-title">Súhlas so spracovaním</div>
+  <div class="consent" id="consentBox">
+    <div class="chk" id="chk"></div>
+    <div class="consent-text">
+      <strong>Súhlasím so spracovaním osobných údajov</strong> v súlade s nariadením GDPR. Moje údaje budú použité výhradne na účely záručného servisu a komunikácie spoločnosti Keďzo s.r.o. / Najsport. Súhlas môžem kedykoľvek odvolať.
+    </div>
+  </div>
+
+  <button class="btn" id="btn" disabled>Zaregistrovať sa</button>
+  <div class="msg" id="msg"></div>
+  <p class="required-note">* Povinné polia</p>
+</div>
+
+<script>
+  // ============================================
+  // VLOŽ SVOJU APPS SCRIPT URL NA TENTO RIADOK:
+  const SCRIPT_URL = "https://najsport.sk/registracia-test";
+  // ============================================
+
+  let consent = false;
+  const chk = document.getElementById('chk');
+  const btn = document.getElementById('btn');
+  const msg = document.getElementById('msg');
+
+  document.getElementById('consentBox').addEventListener('click', () => {
+    consent = !consent;
+    chk.className = 'chk' + (consent ? ' on' : '');
+    chk.textContent = consent ? '✓' : '';
+    validate();
+  });
+
+  ['meno','priezvisko','telefon','email'].forEach(id => {
+    document.getElementById(id).addEventListener('input', validate);
+  });
+
+  function validate() {
+    btn.disabled = !(['meno','priezvisko','telefon','email']
+      .every(id => document.getElementById(id).value.trim()) && consent);
+  }
+
+  btn.addEventListener('click', async () => {
+    btn.disabled = true;
+    btn.textContent = 'Odosielam...';
+    msg.className = 'msg';
+
+    const payload = {
+      meno: document.getElementById('meno').value.trim(),
+      priezvisko: document.getElementById('priezvisko').value.trim(),
+      telefon: document.getElementById('telefon').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      mesto: document.getElementById('mesto').value.trim()
+    };
+
+    try {
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      msg.className = 'msg ok';
+      msg.textContent = 'Ďakujeme! Vaša registrácia bola úspešne odoslaná.';
+      ['meno','priezvisko','telefon','email','mesto'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      consent = false;
+      chk.className = 'chk';
+      chk.textContent = '';
+      btn.textContent = 'Zaregistrovať sa';
+    } catch(e) {
+      msg.className = 'msg err';
+      msg.textContent = 'Chyba pri odosielaní. Skúste to prosím znova.';
+      btn.disabled = false;
+      btn.textContent = 'Zaregistrovať sa';
+    }
+  });
+</script>
+</body>
+</html>
